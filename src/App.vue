@@ -1,6 +1,6 @@
 <template>
   <div>
-    <keep-alive>
+    <keep-alive exclude="Video">
       <router-view />
     </keep-alive>
   </div>

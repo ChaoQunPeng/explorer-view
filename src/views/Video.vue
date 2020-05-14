@@ -32,7 +32,6 @@ export default {
   created() {
     const params = this.$route.params;
     params.path = params.path.replace("D:\\Movies\\", this.$store.state.host);
-    debugger;
     this.videoList.push(params.path);
     this.videoSrc = params.path;
     this.title = params.name;

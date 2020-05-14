@@ -3,12 +3,16 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build"
+    "serve": "vue-cli-service serve --open",
+    "build": "vue-cli-service build",
+    "www": "nodemon ./bin/www.js"
   },
   "dependencies": {
+    "axios": "^0.19.2",
+    "nodemon": "^2.0.3",
     "vue": "^2.6.11",
-    "vue-router": "^3.1.6"
+    "vue-router": "^3.1.6",
+    "vuex": "^3.4.0"
   },
   "devDependencies": {
     "@vue/cli-plugin-router": "~4.3.0",

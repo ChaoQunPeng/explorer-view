@@ -23,16 +23,24 @@ export default {
   name: "Video",
   data() {
     return {
-      videoList: videoList,
+      videoList: [],
       videoSrc: "",
       title: "请选择要播放的视频",
       currentVideIndex: 0
     };
   },
   created() {
-    this.videoSrc = host + this.videoList[0].name;
-    this.title = this.videoList[0].name;
+    const params = this.$route.params;
+    params.path = params.path.replace("D:\\Movies\\", this.$store.state.host);
+    debugger;
+    this.videoList.push(params.path);
+    this.videoSrc = params.path;
+    this.title = params.name;
     this.changeTitle(this.title);
+    // this.videoList.push(this.$route.params.path);
+    // this.videoSrc = host + this.videoList[0].name;
+    // this.title = this.videoList[0].name;
+    // this.changeTitle(this.title);
   },
   mounted() {
     // this.$refs.videoPlayer

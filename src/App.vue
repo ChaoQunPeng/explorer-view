@@ -1,19 +1,16 @@
 <template>
   <div>
-    <router-view />
+    <keep-alive>
+      <router-view />
+    </keep-alive>
   </div>
 </template>
 
 <script>
 export default {
-  created() {
- 
-  },
-  computed: {
-
-  },
-  methods: {
-  }
+  created() {},
+  computed: {},
+  methods: {}
 };
 </script>
 

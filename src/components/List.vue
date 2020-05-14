@@ -31,54 +31,14 @@ export default {
   data() {
     return {
       fileList: [],
-      dict: dict,
-      prev: ""
+      dict: dict
     };
   },
   created() {
 
   },
   methods: {
-    getFileList(path) {
-      fetch("http://192.168.137.1:3030/", {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ path: path })
-      })
-        .then(res => {
-          return res.json();
-        })
-        .then(data => {
-          this.fileList = data;
-        });
-    },
-    click(file) {
-      if (file.type == "dir") {
-        this.getFileList(file.path + "\\");
-        this.$store.commit("pushPath", file.path + "\\");
-        this.getPreviousPath();
-      } else {
-        this.openMedia(file);
-      }
-    },
-    openMedia(file) {
-      switch (file.type) {
-        case "mp4":
-        case "avi":
-        case "rmvb":
-        case "file":
-          alert("文件");
-          break;
-        default:
-          break;
-      }
-    },
-    goBack() {
-      this.getFileList(this.prev);
-    }
+    
   },
   computed: {
     currentPath() {

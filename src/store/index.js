@@ -15,6 +15,9 @@ const store = new Vuex.Store({
     },
     goBack(state) {
       state.paths.pop();
+    },
+    goRoot(state) {
+      state.paths = [this.root];
     }
   }
 })

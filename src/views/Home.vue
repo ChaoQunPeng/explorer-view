@@ -1,7 +1,11 @@
 <template>
   <div>
-    <div>当前目录：{{currentPath}}</div>
-    <div @click="backward">点击返回上一级目录</div>
+    <div class="nav">
+      <div @click="goRoot">回到根目录</div>
+      <div>当前目录：{{currentPath}}</div>
+      <div @click="backward">点击返回上一级目录</div>
+      <div @click="openVideoList">在此打开VideoList</div>
+    </div>
 
     <ul class="ev-file-list" style="list-style:none;">
       <li v-for="(file,index) in fileList" :key="index" @click="click(file)">
@@ -94,13 +98,31 @@ export default {
         case "mkv":
           this.$router.push({
             name: "Video",
-            params: file
+            params: {
+              videoList: [file]
+            }
           });
           break;
 
         default:
+          alert(`
+            当前文件：${file.path}，尚未有合适的组件展示
+          `);
           break;
       }
+    },
+    goRoot() {
+      this.requestData(this.$store.state.root, () => {
+        this.$store.commit("goRoot");
+      });
+    },
+    openVideoList() {
+      this.$router.push({
+        name: "Video",
+        params: {
+          videoList: this.fileList
+        }
+      });
     }
   }
 };
@@ -135,5 +157,9 @@ export default {
     text-overflow: ellipsis;
     white-space: nowrap;
   }
+}
+
+.nav {
+  display: flex;
 }
 </style>

@@ -30,16 +30,10 @@ export default {
     };
   },
   created() {
-    const params = this.$route.params;
-    params.path = params.path.replace("D:\\Movies\\", this.$store.state.host);
-    this.videoList.push(params.path);
-    this.videoSrc = params.path;
-    this.title = params.name;
+    this.videoList = this.$route.params.videoList;
+    this.videoSrc = this.$convertAccessPath(this.videoList[0].path);
+    this.title = this.videoList[0].name;
     this.changeTitle(this.title);
-    // this.videoList.push(this.$route.params.path);
-    // this.videoSrc = host + this.videoList[0].name;
-    // this.title = this.videoList[0].name;
-    // this.changeTitle(this.title);
   },
   mounted() {
     // this.$refs.videoPlayer
@@ -48,11 +42,11 @@ export default {
     video.addEventListener("ended", () => {
       // 说明是最后一个了，就跳到第一个去，目前这么做，循环播放
       if (this.currentVideIndex == this.videoList.length - 1) {
-        this.videoSrc = host + this.videoList[0].name;
+        this.videoSrc = this.videoList[0].path;
         this.changeTitle(this.videoList[0].name);
         this.currentVideIndex = 0;
       } else {
-        this.videoSrc = host + this.videoList[this.currentVideIndex + 1].name;
+        this.videoSrc = this.videoList[this.currentVideIndex + 1].path;
         this.changeTitle(this.videoList[this.currentVideIndex + 1].name);
         this.currentVideIndex++;
       }
@@ -62,12 +56,17 @@ export default {
   methods: {
     play(item, index) {
       this.title = item.name;
-      this.videoSrc = host + item.name;
+      this.videoSrc = item.path.replace("D:\\Movies\\", this.host);
       this.currentVideIndex = index;
       this.changeTitle(this.title);
     },
     changeTitle(title) {
       document.title = title;
+    }
+  },
+  computed: {
+    host() {
+      return this.$store.state.host;
     }
   }
 };

@@ -13,10 +13,3 @@ new Vue({
   store,
   render: function (h) { return h(App) }
 }).$mount('#app')
-
-// Vue.filters('convertAccessPath', (data) => {
-//   debugger
-//   const host = Vue.$store.state.host;
-//   const d = data.replace("D:\\Movies\\", host);
-//   return d;
-// });

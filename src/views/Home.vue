@@ -1,14 +1,11 @@
 <template>
   <div>
-    <div class="nav">
-      <div @click="goRoot">回到根目录</div>
-      <div>当前目录：{{currentPath}}</div>
-      <div @click="backward">点击返回上一级目录</div>
-      <div @click="openVideoList">在此打开VideoList</div>
+    <div class="header">
+      <div>{{currentPath}}</div>
     </div>
 
     <ul class="ev-file-list" style="list-style:none;">
-      <li v-for="(file,index) in fileList" :key="index" @click="click(file)">
+      <li v-for="(file,index) in fileList" :key="index" @click="clickItem(file)">
         <div class="ev-file-item">
           <div class="icon">{{dict[file.type].text}}</div>
           <div class="content">{{file.name}}</div>
@@ -19,91 +16,69 @@
 </template>
 
 <script>
+import { getFileList } from '../api/index';
+
 const dict = {
   dir: {
-    text: "文件夹",
-    icon: ""
+    text: '文件夹',
+    icon: '',
   },
   file: {
-    text: "文件",
-    icon: ""
-  }
+    text: '文件',
+    icon: '',
+  },
 };
 
 export default {
-  name: "List",
+  name: 'List',
   data() {
     return {
       fileList: [],
       dict: dict,
-      currentPath: ""
+      currentPath: '',
     };
   },
   created() {
     this.init();
-    // this.requestData("D:\\");
   },
   methods: {
     init() {
-      const path = this.$store.state.root;
-      this.requestData(path, () => {
-        this.$store.commit("pushPath", path);
+      const path = this.$store.state.diskRoot;
+      getFileList(path, () => {
+        this.$store.commit('pushPath', path);
+      }).then(({ currentPath, fileList }) => {
+        this.currentPath = currentPath;
+        this.fileList = fileList;
       });
     },
-    click(file) {
-      if (file.type == "dir") {
+    clickItem(file) {
+      if (file.type == 'dir') {
         this.forward(file.path);
       } else {
         this.openMedia(file);
       }
     },
     forward(path) {
-      let forwardPath = path + "\\";
-      this.requestData(forwardPath, () => {
-        this.$store.commit("pushPath", forwardPath);
+      let forwardPath = path + '\\';
+
+      getFileList(forwardPath, () => {
+        this.$store.commit('pushPath', forwardPath);
       });
-    },
-    backward() {
-      let lastPath = this.$store.state.paths[
-        this.$store.state.paths.length - 2
-      ];
-      // 如果在根目录了，这个lastPath就是undefined
-      if (!lastPath) return;
-      this.requestData(lastPath, () => {
-        this.$store.commit("goBack");
-      });
-    },
-    requestData(path, callback) {
-      fetch("http://192.168.137.1:3030/", {
-        method: "POST",
-        body: JSON.stringify({ path: path })
-      })
-        .then(data => {
-          return data.json();
-        })
-        .then(res => {
-          this.fileList = res;
-          this.currentPath = path;
-          if (callback) {
-            callback();
-          }
-        });
     },
     openMedia(file) {
       const ext = file.ext;
       switch (ext) {
-        case "mp4":
-        case "avi":
-        case "rmvb":
-        case "mkv":
+        case 'mp4':
+        case 'avi':
+        case 'rmvb':
+        case 'mkv':
           this.$router.push({
-            name: "Video",
+            name: 'Video',
             params: {
-              videoList: [file]
-            }
+              videoList: [file],
+            },
           });
           break;
-
         default:
           alert(`
             当前文件：${file.path}，尚未有合适的组件展示
@@ -111,27 +86,22 @@ export default {
           break;
       }
     },
-    goRoot() {
-      this.requestData(this.$store.state.root, () => {
-        this.$store.commit("goRoot");
+  },
+  watch: {
+    '$store.state.paths': function (pathArray) {
+      const currentPath = pathArray[pathArray.length - 1];
+      getFileList(currentPath).then(({ currentPath, fileList }) => {
+        this.currentPath = currentPath;
+        this.fileList = fileList;
       });
     },
-    openVideoList() {
-      this.$router.push({
-        name: "Video",
-        params: {
-          videoList: this.fileList
-        }
-      });
-    }
-  }
+  },
 };
 </script>
 
 <style scoped lang="less">
 .ev-file-list {
   > li {
-    padding: 0 10px;
     border-bottom: 1px solid #d1d1d1;
   }
 }
@@ -157,9 +127,5 @@ export default {
     text-overflow: ellipsis;
     white-space: nowrap;
   }
-}
-
-.nav {
-  display: flex;
 }
 </style>

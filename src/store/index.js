@@ -5,8 +5,9 @@ Vue.use(Vuex)
 
 const store = new Vuex.Store({
   state: {
-    host: "http://192.168.137.1:8020/",
-    root: "D:\\Movies\\",
+    apiHost: 'http://localhost:3030/',
+    moviesHost: 'http://localhost:8020/',
+    diskRoot: "D:\\Movies\\",
     paths: []
   },
   mutations: {

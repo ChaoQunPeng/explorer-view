@@ -56,7 +56,7 @@ export default {
   methods: {
     play(item, index) {
       this.title = item.name;
-      this.videoSrc = item.path.replace("D:\\Movies\\", this.host);
+      this.videoSrc = item.path.replace("D:\\Movies\\", this.moviesHost);
       this.currentVideIndex = index;
       this.changeTitle(this.title);
     },
@@ -65,8 +65,8 @@ export default {
     }
   },
   computed: {
-    host() {
-      return this.$store.state.host;
+    moviesHost() {
+      return this.$store.state.moviesHost;
     }
   }
 };

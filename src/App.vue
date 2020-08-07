@@ -1,16 +1,24 @@
 <template>
   <div>
-    <keep-alive exclude="Video">
-      <router-view />
-    </keep-alive>
+    <header-bar></header-bar>
+    <div style="height:calc(100vh - 88px);overflow:auto;">
+      <keep-alive exclude="Video">
+        <router-view />
+      </keep-alive>
+    </div>
+    <tab-bar></tab-bar>
   </div>
 </template>
 
 <script>
+import HeaderBar from "@/components/HeaderBar.vue";
+import TabBar from "@/components/TabBar.vue";
+
 export default {
-  created() {},
-  computed: {},
-  methods: {}
+  components: {
+    HeaderBar,
+    TabBar
+  }
 };
 </script>
 

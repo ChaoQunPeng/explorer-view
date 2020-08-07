@@ -1,14 +1,13 @@
 <template>
   <div>
-    <div class="header">
-      <div>{{currentPath}}</div>
-    </div>
-
     <ul class="ev-file-list" style="list-style:none;">
-      <li v-for="(file,index) in fileList" :key="index" @click="clickItem(file)">
+      <li v-for="(item,index) in dirList" :key="index" @click="clickItem(item)">
         <div class="ev-file-item">
-          <div class="icon">{{dict[file.type].text}}</div>
-          <div class="content">{{file.name}}</div>
+          <div class="icon">
+            <!-- {{dict[file.type].text}} -->
+            <i class="iconfont" :class="[item.type=='file'?'icon-file':'icon-folder']"></i>
+          </div>
+          <div class="content">{{item.name}}</div>
         </div>
       </li>
     </ul>
@@ -33,9 +32,8 @@ export default {
   name: 'List',
   data() {
     return {
-      fileList: [],
+      dirList: [],
       dict: dict,
-      currentPath: '',
     };
   },
   created() {
@@ -46,9 +44,8 @@ export default {
       const path = this.$store.state.diskRoot;
       getFileList(path, () => {
         this.$store.commit('pushPath', path);
-      }).then(({ currentPath, fileList }) => {
-        this.currentPath = currentPath;
-        this.fileList = fileList;
+      }).then(({ currentPath, dirList }) => {
+        this.dirList = dirList;
       });
     },
     clickItem(file) {
@@ -60,7 +57,6 @@ export default {
     },
     forward(path) {
       let forwardPath = path + '\\';
-
       getFileList(forwardPath, () => {
         this.$store.commit('pushPath', forwardPath);
       });
@@ -90,9 +86,9 @@ export default {
   watch: {
     '$store.state.paths': function (pathArray) {
       const currentPath = pathArray[pathArray.length - 1];
-      getFileList(currentPath).then(({ currentPath, fileList }) => {
-        this.currentPath = currentPath;
-        this.fileList = fileList;
+      getFileList(currentPath).then(({ currentPath, dirList }) => {
+        this.dirList = dirList;
+        this.$store.commit('setDirList',dirList);
       });
     },
   },
@@ -103,6 +99,10 @@ export default {
 .ev-file-list {
   > li {
     border-bottom: 1px solid #d1d1d1;
+
+    &:last-child {
+      border-bottom: none;
+    }
   }
 }
 
@@ -112,13 +112,15 @@ export default {
   height: 60px;
 
   .icon {
-    width: 60px;
-    height: 60px;
+    width: 50px;
+    height: 50px;
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-right: 10px;
-    border: 1px solid;
+
+    > i {
+      font-size: 24px;
+    }
   }
 
   .content {

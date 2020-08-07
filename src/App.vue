@@ -1,7 +1,7 @@
 <template>
   <div>
     <header-bar></header-bar>
-    <div style="height:calc(100vh - 88px);overflow:auto;">
+    <div class="body" :class="{'video-body':isVideoPage}">
       <keep-alive exclude="Video">
         <router-view />
       </keep-alive>
@@ -11,14 +11,24 @@
 </template>
 
 <script>
-import HeaderBar from "@/components/HeaderBar.vue";
-import TabBar from "@/components/TabBar.vue";
+import HeaderBar from '@/components/HeaderBar.vue';
+import TabBar from '@/components/TabBar.vue';
 
 export default {
+  data() {
+    return {
+      isVideoPage: false,
+    };
+  },
   components: {
     HeaderBar,
-    TabBar
-  }
+    TabBar,
+  },
+  watch: {
+    $route: function (value) {
+      this.isVideoPage = value.name == 'Video';
+    },
+  },
 };
 </script>
 
@@ -27,5 +37,14 @@ export default {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+}
+
+.body {
+  height: calc(100vh - 88px);
+  overflow: auto;
+}
+
+.video-body {
+  overflow: hidden;
 }
 </style>

@@ -1,7 +1,10 @@
 <template>
   <div class="tabbar">
     <!-- <div class="tabbar-item" @click="goRoot">回到根目录</div> -->
-    <div class="tabbar-item" @click="backward">点击返回上一级目录</div>
+    <div class="tabbar-item" @click="backward">
+      <i class="iconfont icon-back"></i>
+      返回
+    </div>
     <div class="tabbar-item" @click="openVideoList">在此打开VideoList</div>
   </div>
 </template>
@@ -37,7 +40,7 @@ export default {
       this.$router.push({
         name: 'Video',
         params: {
-          videoList: this.fileList,
+          videoList: this.$store.state.dirList,
         },
       });
     },

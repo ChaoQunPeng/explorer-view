@@ -20,13 +20,13 @@
 
 <script>
 export default {
-  name: "Video",
+  name: 'Video',
   data() {
     return {
       videoList: [],
-      videoSrc: "",
-      title: "请选择要播放的视频",
-      currentVideIndex: 0
+      videoSrc: '',
+      title: '请选择要播放的视频',
+      currentVideIndex: 0,
     };
   },
   created() {
@@ -39,14 +39,16 @@ export default {
     // this.$refs.videoPlayer
     const video = this.$refs.videoPlayer;
     // 监听方法会更慢一点，下面的就是先输出‘video.ended’，再输出‘播放结束’
-    video.addEventListener("ended", () => {
+    video.addEventListener('ended', () => {
       // 说明是最后一个了，就跳到第一个去，目前这么做，循环播放
       if (this.currentVideIndex == this.videoList.length - 1) {
-        this.videoSrc = this.videoList[0].path;
+        // this.videoSrc = this.videoList[0].path;
+        this.videoSrc = this.convertPath(this.videoList[0].path);
         this.changeTitle(this.videoList[0].name);
         this.currentVideIndex = 0;
       } else {
-        this.videoSrc = this.videoList[this.currentVideIndex + 1].path;
+        // this.videoSrc = this.videoList[this.currentVideIndex + 1].path;
+        this.videoSrc = this.convertPath(this.videoList[this.currentVideIndex + 1].path);
         this.changeTitle(this.videoList[this.currentVideIndex + 1].name);
         this.currentVideIndex++;
       }
@@ -56,19 +58,27 @@ export default {
   methods: {
     play(item, index) {
       this.title = item.name;
-      this.videoSrc = item.path.replace("D:\\Movies\\", this.moviesHost);
+      // this.videoSrc = item.path.replace("D:\\Movies\\", this.moviesHost);
+      this.videoSrc = this.convertPath(item.path);
       this.currentVideIndex = index;
       this.changeTitle(this.title);
     },
     changeTitle(title) {
       document.title = title;
-    }
+    },
+    // 将绝对路径转成服务器的地址
+    convertPath(path) {
+      return path.replace(this.diskRoot, this.moviesHost);
+    },
   },
   computed: {
     moviesHost() {
       return this.$store.state.moviesHost;
-    }
-  }
+    },
+    diskRoot() {
+      return this.$store.state.diskRoot;
+    },
+  },
 };
 </script>
 
@@ -76,7 +86,7 @@ export default {
 .ev-video {
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  height: 100%;
 }
 
 .video-player {

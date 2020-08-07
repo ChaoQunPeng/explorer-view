@@ -16,7 +16,7 @@ function getFileList(path, callback) {
     })
       .then(res => {
         reslove({
-          fileList: res,
+          dirList: res,
           currentPath: path
         });
 

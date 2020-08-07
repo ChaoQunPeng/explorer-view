@@ -7,8 +7,10 @@ const store = new Vuex.Store({
   state: {
     apiHost: 'http://localhost:3030/',
     moviesHost: 'http://localhost:8020/',
-    diskRoot: "D:\\Movies\\",
-    paths: []
+    diskRoot: 'D:\\Movies\\',
+    paths: [],
+    currentPath: '',
+    dirList: []
   },
   mutations: {
     pushPath(state, payload) {
@@ -18,7 +20,15 @@ const store = new Vuex.Store({
       state.paths.pop();
     },
     goRoot(state) {
-      state.paths = [this.root];
+      state.paths = [state.diskRoot];
+    },
+    setDirList(state, payload) {
+      state.dirList = payload;
+    }
+  },
+  getters: {
+    currentPath(state) {
+      return state.paths[state.paths.length - 1];
     }
   }
 })

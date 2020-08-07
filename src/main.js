@@ -6,6 +6,7 @@ import store from './store'
 import ConvertAccessPath from './plugin/convertAccessPath' // 引入
 Vue.use(ConvertAccessPath) 
 
+
 Vue.config.productionTip = false
 
 new Vue({

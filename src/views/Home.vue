@@ -50,15 +50,16 @@ export default {
     },
     clickItem(file) {
       if (file.type == 'dir') {
-        this.forward(file.path);
+        this.forward(file);
       } else {
         this.openMedia(file);
       }
     },
-    forward(path) {
-      let forwardPath = path + '\\';
+    forward(file) {
+      let forwardPath = file.path + '\\';
       getFileList(forwardPath, () => {
         this.$store.commit('pushPath', forwardPath);
+        this.$store.commit('setDirObjList', file);
       });
     },
     openMedia(file) {
@@ -91,6 +92,9 @@ export default {
         this.$store.commit('setDirList',dirList);
       });
     },
+    // '$store.state.dirObjList': function (value) {
+    //   getFileList(value.path)
+    // }
   },
 };
 </script>
@@ -120,6 +124,7 @@ export default {
 
     > i {
       font-size: 24px;
+      color: orange;
     }
   }
 

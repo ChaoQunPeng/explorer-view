@@ -23,6 +23,8 @@ function getFileList(path, callback) {
         if (callback) {
           callback();
         }
+      }).catch(err => {
+        reject(err);
       });
   });
 }

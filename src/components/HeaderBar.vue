@@ -4,24 +4,43 @@
       <i class="iconfont icon-home"></i>
     </div>
     <div class="header-bar-path">
-      <div class="header-bar-path-content">{{currentPath}}</div>
+      <ul class="header-bar-path-nav">
+        <li @click="goHome">首页</li>
+        <li v-for="(item,index) in dirObjList" :key="index" @click="goPath({...item,index:index})">
+          <span>{{item.name}}</span>
+          <!-- <i class="iconfont icon-arrow-right"></i> -->
+        </li>
+      </ul>
     </div>
   </div>
 </template>
 
 <script>
+import { getFileList } from '../api/index';
+
 export default {
   name: 'HeaderBar',
+  data() {
+    return {
+      dirObjList: this.$store.state.dirObjList,
+    };
+  },
   methods: {
     goHome() {
       this.$store.commit('goRoot');
+    },
+    // 点击导航栏跳转到指定路径
+    goPath(item) {
+      // this.$store.commit('goPath', item);
+      // console.log(item);
+      // console.log(this.$store.state.dirObjList);
     },
   },
   computed: {
     currentPath() {
       // 暂时还不知道这里为什么会是undefined
       if (this.$store.getters.currentPath != undefined) {
-        console.log(this.$store.state.paths);
+        // console.log(this.$store.state.paths);
       }
 
       if (this.$store.getters.currentPath == this.$store.state.diskRoot) {
@@ -30,6 +49,11 @@ export default {
         return this.$store.getters.currentPath;
       }
     },
+  },
+  watch: {
+    // '$store.state.dirObjList': function (value) {
+    //   getFileList(value.path)
+    // },
   },
 };
 </script>
@@ -48,7 +72,6 @@ export default {
 
     > i {
       font-size: 30px;
-      color: #ddd;
     }
   }
 
@@ -57,9 +80,27 @@ export default {
     margin-left: 10px;
     margin-right: 5px;
     overflow: auto;
+    height: 100%;
+    display: flex;
+    align-items: center;
 
-    // &-content {
-    // }
+    &-nav {
+      white-space: nowrap;
+
+      > li {
+        display: inline-flex;
+        margin-right: 5px;
+
+        &::after {
+          content: '>';
+          margin-left: 5px;
+        }
+
+        &:last-child::after {
+          content: none;
+        }
+      }
+    }
   }
 }
 </style>

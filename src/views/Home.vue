@@ -1,7 +1,7 @@
 <template>
   <div>
     <ul class="ev-file-list" style="list-style:none;">
-      <li v-for="(item,index) in dirList" :key="index" @click="clickItem(item)">
+      <li v-for="(item,index) in list" :key="index" @click="clickItem(item)">
         <div class="ev-file-item">
           <div class="icon">
             <!-- {{dict[file.type].text}} -->
@@ -10,6 +10,8 @@
           <div class="content">{{item.name}}</div>
         </div>
       </li>
+
+      <li class="no-data-tip" v-if="!list.length">什~么~都~没~有~哦~</li>
     </ul>
   </div>
 </template>
@@ -32,7 +34,7 @@ export default {
   name: 'List',
   data() {
     return {
-      dirList: [],
+      list: [],
       dict: dict,
     };
   },
@@ -43,9 +45,12 @@ export default {
     init() {
       const path = this.$store.state.diskRoot;
       getFileList(path, () => {
-        this.$store.commit('pushPath', path);
-      }).then(({ currentPath, dirList }) => {
-        this.dirList = dirList;
+        this.$store.commit('forward', {
+          name: '主页',
+          path,
+        });
+      }).then((list) => {
+        this.list = list;
       });
     },
     clickItem(file) {
@@ -56,10 +61,9 @@ export default {
       }
     },
     forward(file) {
-      let forwardPath = file.path + '\\';
-      getFileList(forwardPath, () => {
-        this.$store.commit('pushPath', forwardPath);
-        this.$store.commit('setDirObjList', file);
+      file.path = file.path + '\\';
+      getFileList(file.path, () => {
+        this.$store.commit('forward', file);
       });
     },
     openMedia(file) {
@@ -85,16 +89,16 @@ export default {
     },
   },
   watch: {
-    '$store.state.paths': function (pathArray) {
-      const currentPath = pathArray[pathArray.length - 1];
-      getFileList(currentPath).then(({ currentPath, dirList }) => {
-        this.dirList = dirList;
-        this.$store.commit('setDirList',dirList);
+    '$store.state.dirList': function (dirList) {
+      let currentPath =
+        dirList.length <= 1
+          ? dirList[0].path
+          : dirList[dirList.length - 1].path;
+
+      getFileList(currentPath).then((list) => {
+        this.list = list;
       });
     },
-    // '$store.state.dirObjList': function (value) {
-    //   getFileList(value.path)
-    // }
   },
 };
 </script>
@@ -134,5 +138,12 @@ export default {
     text-overflow: ellipsis;
     white-space: nowrap;
   }
+}
+
+.no-data-tip {
+  text-align: center;
+  padding: 200px 0;
+  font-size: 30px;
+  color: #666;
 }
 </style>

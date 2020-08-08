@@ -2,7 +2,7 @@ import store from '../store/index';
 
 
 /**
- * 读取文件列表
+ * 读取当前路劲下的所有文件
  * @param {*} path 文件夹目录
  * @param {*} callback 回调函数
  */
@@ -15,14 +15,12 @@ function getFileList(path, callback) {
       return data.json();
     })
       .then(res => {
-        reslove({
-          dirList: res,
-          currentPath: path
-        });
+        reslove(res);
 
         if (callback) {
           callback();
         }
+
       }).catch(err => {
         reject(err);
       });

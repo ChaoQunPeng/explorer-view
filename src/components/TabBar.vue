@@ -15,26 +15,8 @@ import { getFileList } from '../api/index';
 export default {
   name: 'TabBar',
   methods: {
-    goRoot() {
-      this.requestData(this.$store.state.diskRoot, () => {
-        this.$store.commit('goRoot');
-      });
-    },
     backward() {
-      let lastPath = this.$store.state.paths[
-        this.$store.state.paths.length - 2
-      ];
-      // 如果在根目录了，这个lastPath就是undefined
-      if (!lastPath) return;
-      getFileList(lastPath, () => {
-        this.$store.commit('goBack');
-      });
-    },
-    forward(path) {
-      let forwardPath = path + '\\';
-      getFileList(forwardPath, () => {
-        this.$store.commit('pushPath', forwardPath);
-      });
+      this.$store.commit('backward');
     },
     openVideoList() {
       this.$router.push({

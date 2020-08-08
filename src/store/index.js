@@ -11,40 +11,34 @@ const store = new Vuex.Store({
     moviesHost: 'http://localhost:8020/',
     // 本地工作根路径
     diskRoot: 'D:\\Movies\\',
-    // 目录路径的数组
-    paths: [],
-    // 目录路径，用于前进后退
+    // 目录路径，用于前进后退 文件对象：文件名、后缀名、文件路径和类型（是文件还是文件夹）
     dirList: [],
-    // 当前路径下的所有文件及文件夹列表
+    // 当前路径下的所有文件
     list: []
   },
   mutations: {
-    pushPath(state, payload) {
-      state.paths.push(payload);
+    /**
+     * 进入目录
+     * @param {*} payload 文件对象：文件名、后缀名、文件路径和类型（是文件还是文件夹）
+     */
+    forward(state, payload) {
+      state.dirList.push(payload);
     },
-    goBack(state) {
-      state.paths.pop();
+    backward(state) {
+      if (state.dirList.length > 1) {
+        state.dirList.pop();
+      }
     },
     goRoot(state) {
-      state.paths = [state.diskRoot];
+      state.dirList = [{ name: '主页', path: state.diskRoot }];
     },
-    setDirList(state, payload) {
+    goDir(state, payload) {
       state.dirList = payload;
-    },
-    setDirObjList(state, payload) {
-      state.dirObjList.push(payload);
-    },
-    goPath(state, payload) {
-      state.dirObjList = state.dirObjList.slice(0, payload.index + 1);
-      state.paths = [];
-      state.dirObjList.forEach(e => {
-        state.paths = e.path;
-      });
     }
   },
   getters: {
     currentPath(state) {
-      return state.paths[state.paths.length - 1];
+      return state.dirList[state.paths.length - 1];
     }
   }
 })

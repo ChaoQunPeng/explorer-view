@@ -5,8 +5,8 @@
     </div>
     <div class="header-bar-path">
       <ul class="header-bar-path-nav">
-        <li @click="goHome">首页</li>
-        <li v-for="(item,index) in dirObjList" :key="index" @click="goPath({...item,index:index})">
+        <!-- <li @click="goHome">首页</li> -->
+        <li v-for="(item,index) in dirList" :key="index" @click="goDir({...item,index})">
           <span>{{item.name}}</span>
           <!-- <i class="iconfont icon-arrow-right"></i> -->
         </li>
@@ -22,7 +22,7 @@ export default {
   name: 'HeaderBar',
   data() {
     return {
-      dirObjList: this.$store.state.dirObjList,
+      dirList: this.$store.state.dirList,
     };
   },
   methods: {
@@ -30,30 +30,15 @@ export default {
       this.$store.commit('goRoot');
     },
     // 点击导航栏跳转到指定路径
-    goPath(item) {
-      // this.$store.commit('goPath', item);
-      // console.log(item);
-      // console.log(this.$store.state.dirObjList);
-    },
-  },
-  computed: {
-    currentPath() {
-      // 暂时还不知道这里为什么会是undefined
-      if (this.$store.getters.currentPath != undefined) {
-        // console.log(this.$store.state.paths);
-      }
-
-      if (this.$store.getters.currentPath == this.$store.state.diskRoot) {
-        return '首页';
-      } else {
-        return this.$store.getters.currentPath;
-      }
+    goDir(item) {
+      let newDirList = this.dirList.splice(0, item.index + 1);
+      this.$store.commit('goDir', newDirList);
     },
   },
   watch: {
-    // '$store.state.dirObjList': function (value) {
-    //   getFileList(value.path)
-    // },
+    '$store.state.dirList': function (dirList) {
+      this.dirList = dirList;
+    },
   },
 };
 </script>

@@ -4,10 +4,12 @@
       <li v-for="(item,index) in list" :key="index" @click="clickItem(item)">
         <div class="ev-file-item">
           <div class="icon">
-            <!-- {{dict[file.type].text}} -->
             <i class="iconfont" :class="[item.type=='file'?'icon-file':'icon-folder']"></i>
           </div>
-          <div class="content">{{item.name}}</div>
+          <div class="content">
+            {{item.name}}
+            <!-- <div class="content-txt"></div> -->
+          </div>
         </div>
       </li>
 
@@ -19,23 +21,11 @@
 <script>
 import { getFileList } from '../api/index';
 
-const dict = {
-  dir: {
-    text: '文件夹',
-    icon: '',
-  },
-  file: {
-    text: '文件',
-    icon: '',
-  },
-};
-
 export default {
   name: 'List',
   data() {
     return {
       list: [],
-      dict: dict,
     };
   },
   created() {
@@ -97,6 +87,7 @@ export default {
 
       getFileList(currentPath).then((list) => {
         this.list = list;
+        this.$store.commit('setList', list);
       });
     },
   },
@@ -106,6 +97,7 @@ export default {
 <style scoped lang="less">
 .ev-file-list {
   > li {
+    padding-right: 15px;
     border-bottom: 1px solid #d1d1d1;
 
     &:last-child {
@@ -134,9 +126,9 @@ export default {
 
   .content {
     flex: 1;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    overflow: auto;
+    word-break: break-all;
+    font-size: 14px;
   }
 }
 

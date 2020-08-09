@@ -34,11 +34,17 @@ const store = new Vuex.Store({
     },
     goDir(state, payload) {
       state.dirList = payload;
+    },
+    setList(state, payload) {
+      state.list = payload;
     }
   },
   getters: {
-    currentPath(state) {
-      return state.dirList[state.paths.length - 1];
+    videoList(state) {
+      const filterVideoFile = function (file) {
+        return file.ext == 'mp4' || file.ext == 'avi' || file.ext == 'rmvb' || file.ext == 'mkv';
+      }
+      return state.list.filter(filterVideoFile);
     }
   }
 })

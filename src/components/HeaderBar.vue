@@ -1,9 +1,9 @@
 <template>
-  <div class="header-bar">
-    <div class="header-bar-icon" @click="goHome">
+  <div class="header-bar" style="padding-left:0;">
+    <div class="header-bar-icon" :class="{'shadow':showShadow}" @click="goHome">
       <i class="iconfont icon-home"></i>
     </div>
-    <div class="header-bar-path">
+    <div class="header-bar-path" ref="headerBarPath">
       <ul class="header-bar-path-nav">
         <!-- <li @click="goHome">首页</li> -->
         <li v-for="(item,index) in dirList" :key="index" @click="goDir({...item,index})">
@@ -23,7 +23,13 @@ export default {
   data() {
     return {
       dirList: this.$store.state.dirList,
+      showShadow: false,
     };
+  },
+  mounted() {
+    this.$refs.headerBarPath.addEventListener('scroll', (event) => {
+      this.showShadow = event.target.scrollLeft > 0;
+    });
   },
   methods: {
     goHome() {
@@ -52,18 +58,26 @@ export default {
   padding: 0 10px;
 
   &-icon {
-    width: 30px;
-    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 45px;
+    height: 100%;
+    transition: all .3s;
 
     > i {
       font-size: 30px;
+    }
+
+    &.shadow {
+      box-shadow: 2px 0 5px #ddd;
     }
   }
 
   &-path {
     flex: 1;
-    margin-left: 10px;
-    margin-right: 5px;
+    margin-left: 5px;
+    // margin-right: 5px;
     overflow: auto;
     height: 100%;
     display: flex;

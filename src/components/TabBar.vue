@@ -2,10 +2,11 @@
   <div class="tabbar">
     <!-- <div class="tabbar-item" @click="goRoot">回到根目录</div> -->
     <div class="tabbar-item" @click="backward">
-      <i class="iconfont icon-back"></i>
-      返回
+      <i class="iconfont icon-left"></i>
     </div>
-    <div class="tabbar-item" @click="openVideoList">在此打开VideoList</div>
+    <div class="tabbar-item" @click="openVideoList">
+      <i class="iconfont icon-player"></i>
+    </div>
   </div>
 </template>
 
@@ -55,14 +56,27 @@ export default {
 <style lang="less" scoped>
 .tabbar {
   display: flex;
-  height: 44px;
-  border-top: 1px solid #dfdfdf;
+  height: 62px;
+  background: #192a56;
+  color: #fff;
+  border-top-left-radius: 2px;
+  border-top-right-radius: 2px;
 
   &-item {
     flex: 1;
     display: flex;
     justify-content: center;
     align-items: center;
+    transition: all 0.3s;
+
+    &:active {
+      background: #fff;
+      color: #192a56;
+    }
+
+    > .iconfont {
+      font-size: 24px;
+    }
   }
 }
 </style>

@@ -2,6 +2,8 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import Video from '../views/Video.vue'
+import Picture from '../views/Picture.vue'
+import Txt from '../views/Txt.vue'
 
 Vue.use(VueRouter);
 
@@ -15,6 +17,16 @@ const routes = [
     path: '/video',
     name: 'Video',
     component: Video
+  },
+  {
+    path: '/picture',
+    name: 'Picture',
+    component: Picture
+  },
+  {
+    path: '/txt',
+    name: 'Txt',
+    component: Txt
   },
   {
     path: '/about',

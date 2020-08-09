@@ -10,9 +10,12 @@
         <li
           v-for="(item,index) in videoList"
           :key="index"
-          :class="[currentVideIndex==index?'activeVideo':'']"
+          :class="[currentVideIndex==index?'active':'']"
           @click="play(item,index)"
-        >{{index+1}}-{{item.name}}</li>
+        >
+          <i v-if="currentVideIndex==index" class="iconfont icon-player"></i>
+        
+        {{item.name}}</li>
       </ul>
     </div>
   </div>
@@ -43,12 +46,14 @@ export default {
       // 说明是最后一个了，就跳到第一个去，目前这么做，循环播放
       if (this.currentVideIndex == this.videoList.length - 1) {
         // this.videoSrc = this.videoList[0].path;
-        this.videoSrc = this.convertPath(this.videoList[0].path);
+        this.videoSrc = this.$convertAccessPath(this.videoList[0].path);
         this.changeTitle(this.videoList[0].name);
         this.currentVideIndex = 0;
       } else {
         // this.videoSrc = this.videoList[this.currentVideIndex + 1].path;
-        this.videoSrc = this.convertPath(this.videoList[this.currentVideIndex + 1].path);
+        this.videoSrc = this.$convertAccessPath(
+          this.videoList[this.currentVideIndex + 1].path
+        );
         this.changeTitle(this.videoList[this.currentVideIndex + 1].name);
         this.currentVideIndex++;
       }
@@ -58,8 +63,7 @@ export default {
   methods: {
     play(item, index) {
       this.title = item.name;
-      // this.videoSrc = item.path.replace("D:\\Movies\\", this.moviesHost);
-      this.videoSrc = this.convertPath(item.path);
+      this.videoSrc = this.$convertAccessPath(item.path);
       this.currentVideIndex = index;
       this.changeTitle(this.title);
     },
@@ -67,17 +71,17 @@ export default {
       document.title = title;
     },
     // 将绝对路径转成服务器的地址
-    convertPath(path) {
-      return path.replace(this.diskRoot, this.moviesHost);
-    },
+    // convertPath(path) {
+    //   return path.replace(this.diskRoot, this.moviesHost);
+    // },
   },
   computed: {
-    moviesHost() {
-      return this.$store.state.moviesHost;
-    },
-    diskRoot() {
-      return this.$store.state.diskRoot;
-    },
+    // moviesHost() {
+    //   return this.$store.state.moviesHost;
+    // },
+    // diskRoot() {
+    //   return this.$store.state.diskRoot;
+    // },
   },
 };
 </script>
@@ -116,11 +120,11 @@ export default {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-}
 
-.activeVideo {
-  background: green;
-  color: #fff;
+  &.active {
+    background: #0097e6;
+    color: #fff;
+  }
 }
 
 .title {

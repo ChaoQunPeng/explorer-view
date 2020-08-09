@@ -1,13 +1,14 @@
 <template>
   <div>
-    <ul class="ev-file-list" style="list-style:none;">
-      <li v-for="(item,index) in list" :key="index" @click="clickItem(item)">
+    <ul class="ev-file-list">
+      <li v-for="(file,index) in list" :key="index" @click="clickItem(file)">
         <div class="ev-file-item">
           <div class="icon">
-            <i class="iconfont" :class="[item.type=='file'?'icon-file':'icon-folder']"></i>
+            <!-- [item.type=='file'?'icon-xingzhuangcopy':'icon-file1'] -->
+            <i class="iconfont" :class="setFileIcon(file)"></i>
           </div>
           <div class="content">
-            {{item.name}}
+            {{file.name}}
             <!-- <div class="content-txt"></div> -->
           </div>
         </div>
@@ -43,6 +44,37 @@ export default {
         this.list = list;
       });
     },
+    setFileIcon(file) {
+      let iconClass = '';
+
+      if (file.type == 'dir') {
+        iconClass = 'icon-folder rise-shine';
+        return iconClass;
+      } else {
+        switch (file.ext) {
+          case 'mp4':
+          case 'avi':
+          case 'rmvb':
+          case 'mkv':
+            iconClass = 'icon-video periwinkle';
+            break;
+          case 'txt':
+            iconClass = 'icon-txt seabrook';
+            break;
+          case 'jpg':
+          case 'png':
+          case 'ico':
+          case 'gif':
+            iconClass = 'icon-pic protoss-pylon';
+            break;
+          default:
+            iconClass = 'icon-unknow blueberry-soda';
+            break;
+        }
+      }
+
+      return iconClass;
+    },
     clickItem(file) {
       if (file.type == 'dir') {
         this.forward(file);
@@ -70,9 +102,30 @@ export default {
             },
           });
           break;
+        case 'jpg':
+        case 'png':
+        case 'ico':
+        case 'gif':
+          this.$router.push({
+            name: 'Picture',
+            params: {
+              picture: file,
+            },
+          });
+          break;
+        // TODO:下次的任务是开发浏览txt等一些文本的页面
+        // case 'txt':
+        // case 'html':
+        //   this.$router.push({
+        //     name: 'Txt',
+        //     params: {
+        //       txt: file,
+        //     },
+        //   });
+        //   break;
         default:
           alert(`
-            当前文件：${file.path}，尚未有合适的组件展示
+            当前文件：${file.name}，尚未有合适的组件展示
           `);
           break;
       }
@@ -96,12 +149,14 @@ export default {
 
 <style scoped lang="less">
 .ev-file-list {
+  list-style: none;
+  padding: 0 5px;
+
   > li {
-    padding-right: 15px;
     border-bottom: 1px solid #d1d1d1;
 
     &:last-child {
-      border-bottom: none;
+      // border-bottom: none;
     }
   }
 }
@@ -109,7 +164,7 @@ export default {
 .ev-file-item {
   display: flex;
   align-items: center;
-  height: 60px;
+  min-height: 60px;
 
   .icon {
     width: 50px;
@@ -120,7 +175,6 @@ export default {
 
     > i {
       font-size: 24px;
-      color: orange;
     }
   }
 
@@ -129,6 +183,9 @@ export default {
     overflow: auto;
     word-break: break-all;
     font-size: 14px;
+    line-height: 1.6;
+    padding: 5px 10px 5px 0;
+    color: #273c75;
   }
 }
 

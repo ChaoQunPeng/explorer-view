@@ -33,6 +33,8 @@ export default {
 </script>
 
 <style lang="less">
+@import url('./assets/styles/index.less');
+
 * {
   margin: 0;
   padding: 0;
@@ -40,11 +42,18 @@ export default {
 }
 
 .body {
-  height: calc(100vh - 88px);
+  height: calc(100vh - 124px);
   overflow: auto;
 }
 
 .video-body {
+  overflow: hidden;
+}
+
+.icon {
+  width: 1em; height: 1em;
+  vertical-align: -0.15em;
+  fill: currentColor;
   overflow: hidden;
 }
 </style>

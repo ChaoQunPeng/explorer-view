@@ -3,7 +3,7 @@ import store from '../store'
 export default {
   install(Vue, options) {
     Vue.prototype.$convertAccessPath = function (data) {
-      const path = data.replace("D:\\Movies\\", store.state.moviesHost);
+      const path = data.replace("D:\\Movies\\", store.state.resourceHost);
       return path;
     }
   }

@@ -6,9 +6,11 @@ Vue.use(Vuex)
 const store = new Vuex.Store({
   state: {
     // 服务端接口地址
-    apiHost: 'http://localhost:3030/',
+    // apiHost: 'http://localhost:3030/',
+    apiHost: 'http://192.168.137.1:3030/',
     // 视频文件的地址
-    moviesHost: 'http://localhost:8020/',
+    // resourceHost: 'http://localhost:8020/',
+    resourceHost: 'http://192.168.137.1:8020/',
     // 本地工作根路径
     diskRoot: 'D:\\Movies\\',
     // 目录路径，用于前进后退 文件对象：文件名、后缀名、文件路径和类型（是文件还是文件夹）

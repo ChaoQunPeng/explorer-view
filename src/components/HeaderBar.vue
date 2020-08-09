@@ -5,10 +5,8 @@
     </div>
     <div class="header-bar-path" ref="headerBarPath">
       <ul class="header-bar-path-nav">
-        <!-- <li @click="goHome">首页</li> -->
         <li v-for="(item,index) in dirList" :key="index" @click="goDir({...item,index})">
           <span>{{item.name}}</span>
-          <!-- <i class="iconfont icon-arrow-right"></i> -->
         </li>
       </ul>
     </div>
@@ -37,6 +35,11 @@ export default {
     },
     // 点击导航栏跳转到指定路径
     goDir(item) {
+      this.$router
+        .push({
+          name: 'Home',
+        })
+        .catch((err) => err);
       let newDirList = this.dirList.splice(0, item.index + 1);
       this.$store.commit('goDir', newDirList);
     },
@@ -51,11 +54,14 @@ export default {
 
 <style scoped lang="less">
 .header-bar {
-  height: 44px;
-  border-bottom: 1px solid #dfdfdf;
+  height: 62px;
   display: flex;
   align-items: center;
   padding: 0 10px;
+  background: #192a56;
+  color: #fff;
+  border-bottom-left-radius: 2px;
+  border-bottom-right-radius: 2px;
 
   &-icon {
     display: flex;
@@ -63,10 +69,15 @@ export default {
     align-items: center;
     width: 45px;
     height: 100%;
-    transition: all .3s;
+    transition: all 0.3s;
 
-    > i {
-      font-size: 30px;
+    > .iconfont {
+      font-size: 24px;
+      transition: all 0.3s;
+
+      &:active {
+        text-shadow: 0 0 10px #fff;
+      }
     }
 
     &.shadow {
@@ -89,6 +100,14 @@ export default {
       > li {
         display: inline-flex;
         margin-right: 5px;
+        transition: all 0.3s;
+
+        &:active {
+          background: #fff;
+          color: #192a56;
+          border-radius: 2px;
+          padding: 0 4px;
+        }
 
         &::after {
           content: '>';

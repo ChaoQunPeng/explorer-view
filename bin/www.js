@@ -8,10 +8,8 @@ const port = 3030;
 
 // 后面再取，先放放
 // var ifaces = os.networkInterfaces();
-
 const fv = require('./file-view');
 
-// const data = [{ "name": "超感猎杀.Sense8.S01E01.中英字幕.WEB-HR.AAC.1024X576.x264.mp4", "path": "D:\\Movies\\Sense8\\S1超感猎杀.Sense8.S01E01.中英字幕.WEB-HR.AAC.1024X576.x264.mp4" }, { "name": "超感猎杀.Sense8.S01E02.中英字幕.WEB-HR.AAC.1024X576.x264.mp4", "path": "D:\\Movies\\Sense8\\S1超感猎杀.Sense8.S01E02.中英字幕.WEB-HR.AAC.1024X576.x264.mp4" }, { "name": "超感猎杀.Sense8.S01E03.中英字幕.WEB-HR.AAC.1024X576.x264.mp4", "path": "D:\\Movies\\Sense8\\S1超感猎杀.Sense8.S01E03.中英字幕.WEB-HR.AAC.1024X576.x264.mp4" }, { "name": "超感猎杀.Sense8.S01E04.中英字幕.WEB-HR.AAC.1024X576.x264.mp4", "path": "D:\\Movies\\Sense8\\S1超感猎杀.Sense8.S01E04.中英字幕.WEB-HR.AAC.1024X576.x264.mp4" }, { "name": "超感猎杀.Sense8.S01E05.中英字幕.WEB-HR.AAC.1024X576.x264.mp4", "path": "D:\\Movies\\Sense8\\S1超感猎杀.Sense8.S01E05.中英字幕.WEB-HR.AAC.1024X576.x264.mp4" }, { "name": "超感猎杀.Sense8.S01E06.中英字幕.WEB-HR.AAC.1024X576.x264.mp4", "path": "D:\\Movies\\Sense8\\S1超感猎杀.Sense8.S01E06.中英字幕.WEB-HR.AAC.1024X576.x264.mp4" }, { "name": "超感猎杀.Sense8.S01E07.中英字幕.WEB-HR.AAC.1024X576.x264.mp4", "path": "D:\\Movies\\Sense8\\S1超感猎杀.Sense8.S01E07.中英字幕.WEB-HR.AAC.1024X576.x264.mp4" }, { "name": "超感猎杀.Sense8.S01E08.中英字幕.WEB-HR.AAC.1024X576.x264.mp4", "path": "D:\\Movies\\Sense8\\S1超感猎杀.Sense8.S01E08.中英字幕.WEB-HR.AAC.1024X576.x264.mp4" }, { "name": "超感猎杀.Sense8.S01E09.中英字幕.WEB-HR.AAC.1024X576.x264.mp4", "path": "D:\\Movies\\Sense8\\S1超感猎杀.Sense8.S01E09.中英字幕.WEB-HR.AAC.1024X576.x264.mp4" }, { "name": "超感猎杀.Sense8.S01E10.中英字幕.WEB-HR.AAC.1024X576.x264.mp4", "path": "D:\\Movies\\Sense8\\S1超感猎杀.Sense8.S01E10.中英字幕.WEB-HR.AAC.1024X576.x264.mp4" }, { "name": "超感猎杀.Sense8.S01E11.中英字幕.WEB-HR.AAC.1024X576.x264.mp4", "path": "D:\\Movies\\Sense8\\S1超感猎杀.Sense8.S01E11.中英字幕.WEB-HR.AAC.1024X576.x264.mp4" }, { "name": "超感猎杀.Sense8.S01E12.中英字幕.WEB-HR.AAC.1024X576.x264.mp4", "path": "D:\\Movies\\Sense8\\S1超感猎杀.Sense8.S01E12.中英字幕.WEB-HR.AAC.1024X576.x264.mp4" }];
 //调用http对象的createServer方法，创建一个服务器（接收请求，响应请求）
 const server = http.createServer(hostname, (req, res) => { //箭头函数
   res.statusCode = 200;

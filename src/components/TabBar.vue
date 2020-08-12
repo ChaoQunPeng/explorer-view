@@ -56,7 +56,6 @@ export default {
 <style lang="less" scoped>
 .tabbar {
   display: flex;
-  height: 62px;
   background: #192a56;
   color: #fff;
   border-top-left-radius: 2px;

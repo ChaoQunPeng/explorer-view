@@ -45,12 +45,10 @@ export default {
     video.addEventListener('ended', () => {
       // 说明是最后一个了，就跳到第一个去，目前这么做，循环播放
       if (this.currentVideIndex == this.videoList.length - 1) {
-        // this.videoSrc = this.videoList[0].path;
         this.videoSrc = this.$convertAccessPath(this.videoList[0].path);
         this.changeTitle(this.videoList[0].name);
         this.currentVideIndex = 0;
       } else {
-        // this.videoSrc = this.videoList[this.currentVideIndex + 1].path;
         this.videoSrc = this.$convertAccessPath(
           this.videoList[this.currentVideIndex + 1].path
         );
@@ -58,7 +56,6 @@ export default {
         this.currentVideIndex++;
       }
     });
-    // console.log(video.ended);
   },
   methods: {
     play(item, index) {

@@ -54,7 +54,6 @@ export default {
 
 <style scoped lang="less">
 .header-bar {
-  height: 62px;
   display: flex;
   align-items: center;
   padding: 0 10px;

@@ -1,8 +1,11 @@
 <template>
   <div>
-    <ul class="ev-file-list">
+    <div class="search-bar">
+      <input class="search-bar-input" type="text" v-model="searchKey" />
+    </div>
+    <ul class="ev-file-list" ref="fileList">
       <li v-for="(file,index) in list" :key="index" @click="clickItem(file)">
-        <div class="ev-file-item">
+        <a class="ev-file-item" href="javascript:;">
           <div class="icon">
             <!-- [item.type=='file'?'icon-xingzhuangcopy':'icon-file1'] -->
             <i class="iconfont" :class="setFileIcon(file)"></i>
@@ -11,7 +14,7 @@
             {{file.name}}
             <!-- <div class="content-txt"></div> -->
           </div>
-        </div>
+        </a>
       </li>
 
       <li class="no-data-tip" v-if="!list.length">什~么~都~没~有~哦~</li>
@@ -27,6 +30,8 @@ export default {
   data() {
     return {
       list: [],
+      originList: [],
+      searchKey: '',
     };
   },
   created() {
@@ -42,6 +47,8 @@ export default {
         });
       }).then((list) => {
         this.list = list;
+        // 筛选后还原原始数组的时候用
+        this.originList = list;
       });
     },
     setFileIcon(file) {
@@ -85,6 +92,7 @@ export default {
     forward(file) {
       file.path = file.path + '\\';
       getFileList(file.path, () => {
+        this.searchKey = '';
         this.$store.commit('forward', file);
       });
     },
@@ -130,6 +138,9 @@ export default {
           break;
       }
     },
+    searchKeyChange(event) {
+      this.searchKey = event.target.value;
+    },
   },
   watch: {
     '$store.state.dirList': function (dirList) {
@@ -140,8 +151,15 @@ export default {
 
       getFileList(currentPath).then((list) => {
         this.list = list;
+        this.originList = list;
         this.$store.commit('setList', list);
       });
+    },
+    searchKey: function (value) {
+      this.list = this.originList.filter(
+        (e) =>
+          e.name.toLocaleUpperCase().indexOf(value.toLocaleUpperCase()) > -1
+      );
     },
   },
 };
@@ -155,8 +173,13 @@ export default {
   > li {
     border-bottom: 1px solid #d1d1d1;
 
-    &:last-child {
-      // border-bottom: none;
+    > a:active {
+      background: #00a8ff;
+      transition: all .3s;
+
+      .content {
+        color: #fff;
+      }
     }
   }
 }
@@ -165,6 +188,7 @@ export default {
   display: flex;
   align-items: center;
   min-height: 60px;
+  text-decoration: none;
 
   .icon {
     width: 50px;
@@ -194,5 +218,24 @@ export default {
   padding: 200px 0;
   font-size: 30px;
   color: #666;
+}
+
+.search-bar {
+  width: 100%;
+  padding: 10px;
+  background: #ddd;
+
+  &-input {
+    width: 100%;
+    height: 30px;
+    padding: 0 10px;
+    border-radius: 2px;
+    border: 1px solid #999;
+
+    &:focus {
+      outline: none;
+      border: 1px solid #666;
+    }
+  }
 }
 </style>

@@ -9,6 +9,11 @@
 ## 项目演示
 ![demo](./docs/demo.gif)
 
+## 配置文件
+在src下的config.js。
+`resourceHost`资源服务器地址，我自己这边用的是IIS部署了一个。
+`diskRoot`本地工作路径，读取本地的文件目录
+
 
 ### 安装依赖
 ```

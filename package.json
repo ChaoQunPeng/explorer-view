@@ -5,9 +5,11 @@
   "scripts": {
     "serve": "vue-cli-service serve --open",
     "build": "vue-cli-service build",
-    "www": "nodemon ./bin/www.js"
+    "www": "nodemon ./bin/www.js",
+    "www-prod": "pm2 start ./bin/ecosystem.config.js --env production"
   },
   "dependencies": {
+    "@vue-materials/basic-container": "^1.0.0",
     "axios": "^0.19.2",
     "nodemon": "^2.0.3",
     "vue": "^2.6.11",

@@ -22,6 +22,7 @@ function getFileList(path, callback) {
         }
 
       }).catch(err => {
+        alert(err);
         reject(err);
       });
   });

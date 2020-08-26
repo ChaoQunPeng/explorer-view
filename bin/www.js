@@ -5,7 +5,6 @@ var os = require("os");
 const hostname = 'localhost';
 const port = 3030;
 
-
 // 后面再取，先放放
 // var ifaces = os.networkInterfaces();
 const fv = require('./file-view');
